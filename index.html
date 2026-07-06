@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Boceto ScoutPro — Fede Bozzaotra</title>
+<style>
+body{margin:0;background:#f0f2f5;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:Inter,sans-serif;}
+.wrap{background:white;border-radius:14px;box-shadow:0 4px 32px rgba(0,0,0,0.12);width:900px;overflow:hidden;}
+
+/* TOPBAR */
+.topbar{height:46px;background:#0A1628;display:flex;align-items:center;justify-content:space-between;padding:0 14px;gap:12px;}
+.brand{display:flex;align-items:center;gap:8px;color:white;font-size:14px;font-weight:800;}
+.brand span{color:#00D4FF;}
+.tsearch{flex:1;max-width:280px;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:6px;padding:5px 10px 5px 26px;color:rgba(255,255,255,0.5);font-size:11px;position:relative;}
+.topbtns{display:flex;gap:6px;}
+.tbtn{padding:5px 10px;border-radius:5px;font-size:10px;font-weight:600;cursor:pointer;border:none;}
+.tbtn.drive{background:rgba(0,212,255,0.18);color:#00D4FF;}
+.tbtn.sofa{background:rgba(255,109,0,0.2);color:#FF8C00;}
+.tbtn.fb{background:rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);}
+.ava{width:26px;height:26px;background:#00D4FF;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#060F1C;}
+
+/* BODY */
+.body{display:flex;height:440px;}
+
+/* SIDEBAR */
+.sidebar{width:160px;background:#0A1628;flex-shrink:0;padding:10px 8px;display:flex;flex-direction:column;gap:3px;}
+.sec{font-size:8px;font-weight:700;color:rgba(255,255,255,0.3);text-transform:uppercase;letter-spacing:1px;padding:8px 6px 3px;}
+.lbtn{display:flex;align-items:center;gap:7px;padding:7px 8px;border-radius:6px;font-size:11px;color:rgba(255,255,255,0.65);cursor:pointer;border-left:3px solid transparent;}
+.lbtn.active{background:rgba(59,110,240,0.2);color:#00D4FF;border-left-color:#00D4FF;font-weight:700;}
+.ldot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
+.lcount{margin-left:auto;font-size:9px;background:rgba(255,255,255,0.08);padding:1px 6px;border-radius:10px;color:rgba(255,255,255,0.35);}
+.sdiv{height:1px;background:rgba(255,255,255,0.07);margin:4px 6px;}
+/* nueva feature */
+.lbtn.nuevo{background:rgba(0,230,118,0.12);color:#00E676;border:1px solid rgba(0,230,118,0.25);font-size:10px;border-left:none;border-radius:6px;margin-top:4px;text-align:center;justify-content:center;}
+
+/* LISTA */
+.lista{width:220px;flex-shrink:0;background:#0D1E35;border-right:1px solid rgba(255,255,255,0.07);display:flex;flex-direction:column;}
+.lista-head{padding:8px 12px 6px;border-bottom:1px solid rgba(255,255,255,0.07);}
+.lista-title{font-size:12px;font-weight:700;color:white;margin-bottom:6px;}
+.lsearch{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:5px;padding:5px 10px;color:rgba(255,255,255,0.3);font-size:10px;width:100%;}
+.chips{display:flex;gap:4px;padding:6px 12px;border-bottom:1px solid rgba(255,255,255,0.07);}
+.chip{padding:2px 8px;border-radius:20px;font-size:9px;font-weight:700;cursor:pointer;border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.4);}
+.chip.on{background:#1B4FD8;border-color:#1B4FD8;color:white;}
+.chip.foto{background:rgba(0,212,255,0.15);border-color:rgba(0,212,255,0.3);color:#00D4FF;}
+.jlist{flex:1;overflow:hidden;}
+.jrow{display:flex;align-items:center;gap:8px;padding:7px 12px;border-bottom:1px solid rgba(255,255,255,0.05);cursor:pointer;}
+.jrow.on{background:rgba(59,110,240,0.15);border-left:3px solid #00D4FF;}
+.java{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:white;flex-shrink:0;background:#1B4FD8;}
+.java.foto{background:linear-gradient(135deg,#1B4FD8,#00D4FF);}
+.ji{flex:1;min-width:0;}
+.jn{font-size:11px;font-weight:700;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.js{font-size:9px;color:rgba(255,255,255,0.45);}
+.jr{text-align:right;}
+.jp{font-size:14px;font-weight:800;font-family:monospace;}
+.je{font-size:9px;font-weight:700;margin-top:1px;}
+.link-box{margin:8px;background:rgba(0,230,118,0.1);border:1px solid rgba(0,230,118,0.25);border-radius:6px;padding:7px 8px;}
+.link-title{font-size:9px;font-weight:700;color:#00E676;margin-bottom:4px;}
+.link-input{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:4px 7px;color:rgba(255,255,255,0.35);font-size:9px;}
+
+/* MAIN */
+.main{flex:1;background:#060F1C;display:flex;flex-direction:column;overflow:hidden;}
+.vtabs{display:flex;background:#0A1628;border-bottom:1px solid rgba(255,255,255,0.07);}
+.vt{padding:9px 14px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.45);cursor:pointer;border-bottom:2px solid transparent;}
+.vt.on{color:#00D4FF;border-bottom-color:#00D4FF;}
+.perfil{flex:1;padding:10px;display:grid;grid-template-rows:auto auto auto;gap:8px;overflow:hidden;}
+
+/* ROW 1 */
+.r1{display:grid;grid-template-columns:150px 1fr 140px;gap:8px;}
+/* HERO */
+.hero{background:#0D1E35;border:1px solid rgba(255,255,255,0.07);border-radius:8px;overflow:hidden;}
+.hero-top{background:linear-gradient(150deg,#0D2650,#071428);padding:12px;display:flex;flex-direction:column;align-items:center;text-align:center;}
+.foto-circle{width:50px;height:50px;border-radius:50%;background:#1B4FD8;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:800;color:white;box-shadow:0 0 0 2px #0D1E35,0 0 0 4px #3B6EF0;margin-bottom:7px;position:relative;cursor:pointer;}
+.foto-btn{position:absolute;right:-3px;bottom:-3px;width:16px;height:16px;background:#0D1E35;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;border:1px solid rgba(255,255,255,0.2);}
+.hn{font-size:12px;font-weight:800;color:white;margin-bottom:1px;}
+.hp{display:inline-block;background:#1B4FD8;color:white;padding:1px 8px;border-radius:20px;font-size:8px;font-weight:700;margin-bottom:3px;}
+.hc{font-size:9px;color:rgba(255,255,255,0.45);}
+.hest{padding:4px 10px;border-radius:20px;font-size:9px;font-weight:700;margin-top:6px;background:rgba(0,230,118,0.12);color:#00E676;border:1px solid rgba(0,230,118,0.2);}
+.hero-body{padding:7px 10px;}
+.hir{display:flex;justify-content:space-between;font-size:9px;padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.06);}
+.hil{color:rgba(255,255,255,0.45);}
+.hiv{font-weight:600;color:white;}
+.hiv.cy{color:#00D4FF;}
+.hiv.gr{color:#00E676;}
+.hbtns{padding:6px 8px;display:flex;flex-direction:column;gap:4px;}
+.hbtn{padding:5px 8px;border-radius:5px;font-size:9px;font-weight:700;text-align:center;cursor:pointer;border:none;}
+.hbtn.sofa{background:#FF6D00;color:white;}
+.hbtn.fb{background:#1B4FD8;color:white;}
+.hbtn.pdf{background:rgba(245,166,35,0.15);color:#F5A623;border:1px solid rgba(245,166,35,0.3);}
+.hbtn.cam{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.55);border:1px solid rgba(255,255,255,0.1);}
+
+/* CAMPO */
+.campo{background:#0D1E35;border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:8px;}
+.ctit{font-size:8px;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;}
+.campo-svg{width:100%;border-radius:5px;}
+.smini{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin-top:6px;}
+.sm{background:rgba(255,255,255,0.04);border-radius:5px;padding:5px 3px;text-align:center;}
+.smv{font-size:13px;font-weight:800;font-family:monospace;color:#00D4FF;}
+.sml{font-size:8px;color:rgba(255,255,255,0.4);margin-top:1px;text-transform:uppercase;}
+
+/* RADAR */
+.radar-card{background:#0D1E35;border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:8px;display:flex;flex-direction:column;}
+.radar-svg{flex:1;}
+.inf-scores{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:6px;}
+.iscore{background:rgba(255,255,255,0.04);border-radius:4px;padding:4px;}
+.iscore-lbl{font-size:8px;color:rgba(255,255,255,0.4);}
+.iscore-stars{font-size:10px;}
+
+/* ROW 2 */
+.r2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.pcard{background:#0D1E35;border:1px solid rgba(255,255,255,0.07);border-radius:8px;padding:8px;}
+.pctit{font-size:8px;font-weight:700;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:.6px;margin-bottom:6px;}
+.fechas{display:flex;gap:3px;flex-wrap:wrap;}
+.fch{width:32px;padding:3px 0;border-radius:4px;text-align:center;display:flex;flex-direction:column;align-items:center;}
+.fch .fl{font-size:7px;opacity:.6;}
+.fch .fn{font-size:10px;font-weight:800;}
+.fa{background:rgba(0,230,118,0.15);color:#00E676;}
+.fm{background:rgba(59,110,240,0.15);color:#3B6EF0;}
+.fb2{background:rgba(255,68,68,0.15);color:#FF4444;}
+.fnn{background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.25);}
+
+/* ROW LINK */
+.rlink{background:rgba(0,230,118,0.08);border:1px solid rgba(0,230,118,0.2);border-radius:8px;padding:8px 10px;display:flex;align-items:center;gap:10px;}
+.rlink-icon{font-size:18px;}
+.rlink-txt{flex:1;}
+.rlink-title{font-size:10px;font-weight:700;color:#00E676;margin-bottom:3px;}
+.rlink-sub{font-size:9px;color:rgba(255,255,255,0.45);}
+.rlink-input{flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:5px;padding:5px 9px;color:rgba(255,255,255,0.35);font-size:10px;}
+.rlink-btn{background:#00E676;border:none;color:#060F1C;padding:6px 12px;border-radius:5px;font-size:10px;font-weight:800;cursor:pointer;white-space:nowrap;}
+
+/* BADGES NUEVA FEAT */
+.new-badge{display:inline-block;background:rgba(0,230,118,0.2);color:#00E676;font-size:7px;font-weight:700;padding:1px 5px;border-radius:3px;margin-left:4px;vertical-align:middle;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="brand">⚽ Scout<span>Pro</span></div>
+    <div class="tsearch">🔍  Buscar jugador en todas las ligas...</div>
+    <div class="topbtns">
+      <button class="tbtn drive">☁️ Drive</button>
+      <button class="tbtn sofa">🔍 SofaScore</button>
+      <button class="tbtn fb">📊 FBref</button>
+    </div>
+    <div class="ava">FB</div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- SIDEBAR LIGAS -->
+    <div class="sidebar">
+      <div class="sec">Argentina</div>
+      <div class="lbtn active">
+        <div class="ldot" style="background:#FF4444"></div>
+        Liga Profesional
+        <span class="lcount">44</span>
+      </div>
+      <div class="lbtn">
+        <div class="ldot" style="background:#F5A623"></div>
+        Primera Nacional
+        <span class="lcount">28</span>
+      </div>
+      <div class="lbtn">
+        <div class="ldot" style="background:#00E676"></div>
+        Primera B Metro
+        <span class="lcount">6</span>
+      </div>
+      <div class="sdiv"></div>
+      <div class="sec">Internacional</div>
+      <div class="lbtn">
+        <div class="ldot" style="background:#00D4FF"></div>
+        Mundial 2026
+        <span class="lcount">13</span>
+      </div>
+      <div class="sdiv"></div>
+      <div class="sec">Herramientas</div>
+      <div class="lbtn" style="font-size:10px">☁️ Drive</div>
+      <div class="lbtn" style="font-size:10px">🔍 SofaScore</div>
+      <div class="lbtn" style="font-size:10px">📊 FBref</div>
+      <div class="lbtn" style="font-size:10px">💰 Transfermarkt</div>
+      <div class="sdiv"></div>
+      <div class="lbtn nuevo">🔗 Pegar link<span class="new-badge">NUEVO</span></div>
+    </div>
+
+    <!-- LISTA JUGADORES -->
+    <div class="lista">
+      <div class="lista-head">
+        <div class="lista-title">🔴 Liga Profesional</div>
+        <input class="lsearch" placeholder="🔍 Filtrar jugadores...">
+      </div>
+      <div class="chips">
+        <div class="chip on">Todos</div>
+        <div class="chip">✅</div>
+        <div class="chip">⚠️</div>
+        <div class="chip">📊</div>
+        <div class="chip foto">📷 Foto</div>
+      </div>
+      <div class="jlist">
+        <div class="jrow on">
+          <div class="java foto">FL</div>
+          <div class="ji"><div class="jn">F. Lencioni</div><div class="js">Ext. Izq · Gim. Mza</div></div>
+          <div class="jr"><div class="jp" style="color:#00E676">7.1</div><div class="je" style="color:#00E676">✅</div></div>
+        </div>
+        <div class="jrow">
+          <div class="java">GR</div>
+          <div class="ji"><div class="jn">G. Rojas</div><div class="js">Lat. Izq · Racing</div></div>
+          <div class="jr"><div class="jp" style="color:#00E676">7.2</div><div class="je" style="color:#00E676">✅</div></div>
+        </div>
+        <div class="jrow">
+          <div class="java">MB</div>
+          <div class="ji"><div class="jn">M. Borgogno</div><div class="js">Arquero · Platense</div></div>
+          <div class="jr"><div class="jp" style="color:#00E676">7.3</div><div class="je" style="color:#00E676">✅</div></div>
+        </div>
+        <div class="jrow">
+          <div class="java">AS</div>
+          <div class="ji"><div class="jn">A. Staimbach</div><div class="js">Int. Der · Gim. LP</div></div>
+          <div class="jr"><div class="jp" style="color:#00E676">7.0</div><div class="je" style="color:#00E676">✅</div></div>
+        </div>
+        <div class="jrow">
+          <div class="java">KL</div>
+          <div class="ji"><div class="jn">K. Lomonaco</div><div class="js">Def. C · Independiente</div></div>
+          <div class="jr"><div class="jp" style="color:#3B6EF0">6.9</div><div class="je" style="color:#00E676">✅</div></div>
+        </div>
+        <div class="jrow">
+          <div class="java">IO</div>
+          <div class="ji"><div class="jn">I. Ovando</div><div class="js">Def. C · Ros. Central</div></div>
+          <div class="jr"><div class="jp" style="color:#3B6EF0">6.9</div><div class="je" style="color:#00E676">✅</div></div>
+        </div>
+        <div style="padding:8px 12px;font-size:9px;color:rgba(255,255,255,0.25);text-align:center">... 38 jugadores más</div>
+      </div>
+      <!-- LINK PEGAR -->
+      <div class="link-box">
+        <div class="link-title">🔗 Pegar link jugador <span class="new-badge">★ NUEVO</span></div>
+        <input class="link-input" placeholder="https://sofascore.com/... o fbref.com/...">
+      </div>
+    </div>
+
+    <!-- MAIN PERFIL -->
+    <div class="main">
+      <div class="vtabs">
+        <div class="vt on">👤 Perfil</div>
+        <div class="vt">⚖️ Comparador</div>
+        <div class="vt">💰 Valor · Contrato</div>
+        <div class="vt">📊 Stats avanzadas</div>
+      </div>
+
+      <div class="perfil">
+
+        <!-- ROW 1 -->
+        <div class="r1">
+          <!-- HERO -->
+          <div class="hero">
+            <div class="hero-top">
+              <div class="foto-circle">FL<div class="foto-btn">📷</div></div>
+              <div class="hn">F. Lencioni</div>
+              <div class="hp">Extremo Izquierdo</div>
+              <div class="hc">Gim. Mendoza · LP</div>
+              <div class="hest">✅ RENDIDOR</div>
+            </div>
+            <div class="hero-body">
+              <div class="hir"><span class="hil">Edad</span><span class="hiv">25</span></div>
+              <div class="hir"><span class="hil">Pie</span><span class="hiv">Izquierdo</span></div>
+              <div class="hir"><span class="hil">Partidos</span><span class="hiv cy">14</span></div>
+              <div class="hir"><span class="hil">Promedio</span><span class="hiv gr">7.1</span></div>
+              <div class="hir"><span class="hil">Goles</span><span class="hiv gr">3</span></div>
+              <div class="hir"><span class="hil">Asist.</span><span class="hiv gr">5</span></div>
+            </div>
+            <div class="hbtns">
+              <button class="hbtn sofa">🔍 SofaScore</button>
+              <button class="hbtn fb">📊 FBref</button>
+              <button class="hbtn pdf">📄 Ver informe PDF</button>
+              <button class="hbtn cam">📷 Cambiar foto</button>
+            </div>
+          </div>
+
+          <!-- CAMPO -->
+          <div class="campo">
+            <div class="ctit">Posición · Heatmap en cancha</div>
+            <svg class="campo-svg" viewBox="0 0 260 120" xmlns="http://www.w3.org/2000/svg">
+              <rect width="260" height="120" fill="#091a09" rx="5"/>
+              <rect x="1" y="1" width="258" height="118" rx="4" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+              <line x1="130" y1="1" x2="130" y2="119" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+              <circle cx="130" cy="60" r="22" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+              <rect x="1" y="32" width="42" height="56" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+              <rect x="217" y="32" width="42" height="56" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.8"/>
+              <ellipse cx="175" cy="90" rx="50" ry="24" fill="rgba(0,212,255,0.05)"/>
+              <ellipse cx="172" cy="88" rx="30" ry="15" fill="rgba(0,212,255,0.09)"/>
+              <ellipse cx="170" cy="87" rx="16" ry="10" fill="rgba(0,212,255,0.16)"/>
+              <circle cx="158" cy="83" r="8" fill="rgba(0,212,255,0.22)" stroke="#00D4FF" stroke-width="1.5"/>
+              <text x="158" y="87" text-anchor="middle" fill="#00D4FF" font-size="6" font-weight="700" font-family="Inter,sans-serif">EI</text>
+            </svg>
+            <div class="smini">
+              <div class="sm"><div class="smv">7.1</div><div class="sml">Prom</div></div>
+              <div class="sm"><div class="smv">14</div><div class="sml">PJ</div></div>
+              <div class="sm"><div class="smv" style="color:#00E676">📈</div><div class="sml">Tend.</div></div>
+              <div class="sm"><div class="smv">8.5</div><div class="sml">Mejor</div></div>
+              <div class="sm"><div class="smv" style="color:#FF4444">6.1</div><div class="sml">Peor</div></div>
+              <div class="sm"><div class="smv">LP</div><div class="sml">Div.</div></div>
+            </div>
+          </div>
+
+          <!-- RADAR -->
+          <div class="radar-card">
+            <div class="ctit">Radar · Prom 7.1</div>
+            <svg class="radar-svg" viewBox="0 0 130 110" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="65,15 100,35 95,72 65,85 35,72 30,35" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+              <polygon points="65,25 88,42 84,66 65,76 46,66 42,42" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+              <polygon points="65,35 76,48 73,61 65,67 57,61 54,48" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+              <line x1="65" y1="15" x2="65" y2="85" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+              <line x1="100" y1="35" x2="30" y2="72" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+              <line x1="95" y1="72" x2="35" y2="35" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+              <!-- DATA -->
+              <polygon points="65,18 94,38 90,68 65,80 40,66 38,36" fill="rgba(0,212,255,0.10)" stroke="#00D4FF" stroke-width="1.5"/>
+              <circle cx="65" cy="18" r="3" fill="#00D4FF"/>
+              <circle cx="94" cy="38" r="3" fill="#00D4FF"/>
+              <circle cx="90" cy="68" r="3" fill="#00D4FF"/>
+              <circle cx="65" cy="80" r="3" fill="#00D4FF"/>
+              <circle cx="40" cy="66" r="3" fill="#00D4FF"/>
+              <circle cx="38" cy="36" r="3" fill="#00D4FF"/>
+              <text x="65" y="11" text-anchor="middle" fill="rgba(255,255,255,0.45)" font-size="7" font-family="Inter">Téc</text>
+              <text x="106" y="38" fill="rgba(255,255,255,0.45)" font-size="7" font-family="Inter">Tác</text>
+              <text x="97" y="74" fill="rgba(255,255,255,0.45)" font-size="7" font-family="Inter">Fís</text>
+              <text x="65" y="95" text-anchor="middle" fill="rgba(255,255,255,0.45)" font-size="7" font-family="Inter">Duel</text>
+              <text x="2" y="72" fill="rgba(255,255,255,0.45)" font-size="7" font-family="Inter">Vel</text>
+              <text x="4" y="36" fill="rgba(255,255,255,0.45)" font-size="7" font-family="Inter">Pos</text>
+            </svg>
+            <div class="inf-scores">
+              <div class="iscore"><div class="iscore-lbl">⚙️ Téc</div><div class="iscore-stars" style="color:#F5A623">★★★★☆</div></div>
+              <div class="iscore"><div class="iscore-lbl">🧠 Tác</div><div class="iscore-stars" style="color:#F5A623">★★★★☆</div></div>
+              <div class="iscore"><div class="iscore-lbl">💪 Fís</div><div class="iscore-stars" style="color:#F5A623">★★★☆☆</div></div>
+              <div class="iscore"><div class="iscore-lbl">🧬 Psi</div><div class="iscore-stars" style="color:#F5A623">★★★★☆</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROW 2 -->
+        <div class="r2">
+          <div class="pcard">
+            <div class="pctit">Notas por fecha — 14 calificadas</div>
+            <div class="fechas">
+              <div class="fch fa"><div class="fl">F1</div><div class="fn">6.8</div></div>
+              <div class="fch fa"><div class="fl">F2</div><div class="fn">7.2</div></div>
+              <div class="fch fb2"><div class="fl">F3</div><div class="fn">6.1</div></div>
+              <div class="fch fa"><div class="fl">F4</div><div class="fn">8.5</div></div>
+              <div class="fch fm"><div class="fl">F5</div><div class="fn">7.0</div></div>
+              <div class="fch fm"><div class="fl">F6</div><div class="fn">6.9</div></div>
+              <div class="fch fm"><div class="fl">F7</div><div class="fn">6.6</div></div>
+              <div class="fch fm"><div class="fl">F8</div><div class="fn">6.9</div></div>
+              <div class="fch fnn"><div class="fl">F9</div><div class="fn">—</div></div>
+              <div class="fch fa"><div class="fl">F10</div><div class="fn">7.6</div></div>
+              <div class="fch fa"><div class="fl">F11</div><div class="fn">7.1</div></div>
+              <div class="fch fa"><div class="fl">F12</div><div class="fn">7.4</div></div>
+              <div class="fch fa"><div class="fl">F13</div><div class="fn">7.1</div></div>
+              <div class="fch fa"><div class="fl">F14</div><div class="fn">7.7</div></div>
+            </div>
+          </div>
+          <div class="pcard">
+            <div class="pctit">Evolución del rendimiento — 📈 En alza</div>
+            <svg viewBox="0 0 300 70" xmlns="http://www.w3.org/2000/svg" style="width:100%">
+              <line x1="0" y1="28" x2="300" y2="28" stroke="rgba(255,255,255,0.05)" stroke-width="1" stroke-dasharray="3 3"/>
+              <polyline points="10,52 30,38 50,60 70,14 90,30 110,28 130,26 150,18 175,22 200,16 220,14 240,10 260,8 280,6 295,5" fill="none" stroke="#00D4FF" stroke-width="2"/>
+              <circle cx="10" cy="52" r="3" fill="#FF4444"/>
+              <circle cx="70" cy="14" r="3" fill="#00E676"/>
+              <circle cx="295" cy="5" r="3" fill="#00E676"/>
+              <text x="5" y="68" fill="rgba(255,255,255,0.25)" font-size="7" font-family="Inter">F1</text>
+              <text x="285" y="68" fill="rgba(255,255,255,0.25)" font-size="7" font-family="Inter" text-anchor="end">F14</text>
+              <text x="295" y="4" fill="#00E676" font-size="7" font-family="Inter" text-anchor="end">7.7</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- ROW LINK -->
+        <div class="rlink">
+          <div class="rlink-icon">🔗</div>
+          <div class="rlink-txt">
+            <div class="rlink-title">★ Pegar link del jugador y traer estadísticas automáticas</div>
+            <div class="rlink-sub">Pegá el link de SofaScore, FBref o Transfermarkt y la herramienta extrae sus stats al instante</div>
+          </div>
+          <input class="rlink-input" placeholder="https://sofascore.com/facundo-lencioni/...">
+          <button class="rlink-btn">Traer stats →</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
